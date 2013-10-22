@@ -1,0 +1,94 @@
+#Sneh Munshi
+#smunshi6@gatech.edu
+#GT ID: 903004069
+
+#Jonathan Kester
+#jkester3@gatech.edu
+#GT ID: 902797313
+
+#We worked on this assignment using our coding knowledge and social skills.
+
+
+from Myro import *
+init()
+
+#Enter the number of pictures that you would like the scribbler to take and display on the webpage.
+
+def makeWebPage(numberOfPictures):
+    y = []
+    robot = getName()
+    for x in range(numberOfPictures):
+        p = takePicture()
+        name = 'pic' + str(x) + '.jpg'
+        savePicture(p, name)
+        light = getLight()
+        average = (light[0] + light[1] + light[2])/3
+        y.append(average)
+        turnRight (.5,.8)
+    htmlMaker(numberOfPictures, y, robot)
+
+#This function creates the myPage.html file displaying the pictures along with the corresponding average light sensor values.
+
+def htmlMaker(numberOfPictures, y, robot):
+    myNewWebpage = open("myPage.html", "w")
+    myNewWebpage.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"\n"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n')
+    myNewWebpage.write('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n')
+    myNewWebpage.write("\n")
+    myNewWebpage.write("<head>\n")
+    myNewWebpage.write('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />')
+    myNewWebpage.write("    <title>Sneh and Jonathan's Webpage</title>\n")
+    myNewWebpage.write("</head>\n")
+    myNewWebpage.write("\n")
+    myNewWebpage.write("<body>\n")
+    myNewWebpage.write("<h1> Welcome To Our Web Picture Page!~ :D</h1>\n")
+    myNewWebpage.write("<p><em>Made by Sneh Munshi and Jonathan Kester!</em></p>\n")
+    myNewWebpage.write("\n")
+    myNewWebpage.write("<table>\n")
+    myNewWebpage.write("\n")
+    rows = (numberOfPictures//4)
+    last_row = numberOfPictures%4
+    counter = 0
+    if  rows == 0:
+        myNewWebpage.write("<tr>\n")
+        for i in range(last_row):
+            name = "pic" + str(counter) + ".jpg"
+            text1 ='    <td><img src = "' + name + '" width = "300" height = "300" alt = "pic"/>\n'
+            text2 ='    <p>' + str(y[counter]) + '</p>\n'
+            myNewWebpage.write(text1)
+            myNewWebpage.write(text2)
+            myNewWebpage.write("    </td>\n")
+            counter = counter + 1
+        myNewWebpage.write ("</tr>\n")
+    else:
+        for i in range(rows):
+            myNewWebpage.write("<tr>\n")
+            for j in range(4):
+                name = "pic" + str(counter) + ".jpg"
+                text1 ='    <td><img src = "' + name + '" width = "300" height = "300" alt = "pic"/>\n'
+                text2 ="    <p>" + str(y[counter]) + "</p>\n"
+                myNewWebpage.write(text1)
+                myNewWebpage.write(text2)
+                myNewWebpage.write("    </td>\n")
+                counter = counter + 1
+            myNewWebpage.write("</tr>\n")
+            myNewWebpage.write("\n")
+
+        myNewWebpage.write("<tr>\n")
+        for i in range(last_row):
+            name = "pic" + str(counter) + ".jpg"
+            text1 ='    <td><img src = "' + name + '" width = "300" height = "300" alt = "pic"/>\n'
+            text2 ="    <p>" + str(y[counter]) + "</p>\n"
+            myNewWebpage.write(text1)
+            myNewWebpage.write(text2)
+            myNewWebpage.write("    </td>\n")
+            counter = counter + 1
+        myNewWebpage.write("</tr>\n")
+    myNewWebpage.write("</table>\n")
+    text3 = "<p>Pictures taken by " + robot + ".</p>\n"
+    myNewWebpage.write(text3)
+    myNewWebpage.write("</body>\n")
+    myNewWebpage.write("</html>")
+    myNewWebpage.close()
+
+
+
